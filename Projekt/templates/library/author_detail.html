@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ author }}{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="mb-0">{{ author }}</h3>
+        <div>
+            <a href="{% url 'author_update' author.pk %}" class="btn btn-sm btn-outline-primary">Edytuj</a>
+            <a href="{% url 'author_delete' author.pk %}" class="btn btn-sm btn-outline-danger">Usuń</a>
+        </div>
+    </div>
+    <div class="card-body">
+        {% if author.birth_year %}<p><strong>Rok urodzenia:</strong> {{ author.birth_year }}</p>{% endif %}
+        <h5>Książki autora</h5>
+        <ul class="list-group">
+        {% for book in author.books.all %}
+            <li class="list-group-item d-flex justify-content-between">
+                <a href="{% url 'book_detail' book.pk %}">{{ book.title }} ({{ book.year }})</a>
+                {% if book.is_available %}
+                    <span class="badge bg-success">Dostępna</span>
+                {% else %}
+                    <span class="badge bg-danger">Wypożyczona</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted">Brak książek.</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+<a href="{% url 'author_list' %}" class="btn btn-secondary mt-3">Wróć do listy</a>
+{% endblock %}

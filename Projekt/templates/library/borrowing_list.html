@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Wypożyczenia{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Wypożyczenia</h2>
+    <a href="{% url 'borrowing_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Dodaj</a>
+</div>
+
+<div class="btn-group mb-3">
+    <a href="{% url 'borrowing_list' %}" class="btn btn-outline-secondary {% if not selected_status %}active{% endif %}">Wszystkie</a>
+    <a href="?status=active" class="btn btn-outline-secondary {% if selected_status == 'active' %}active{% endif %}">Aktywne</a>
+    <a href="?status=returned" class="btn btn-outline-secondary {% if selected_status == 'returned' %}active{% endif %}">Zwrócone</a>
+</div>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr><th>Książka</th><th>Wypożyczający</th><th>Data wypożyczenia</th><th>Data zwrotu</th><th>Status</th><th>Akcje</th></tr>
+    </thead>
+    <tbody>
+    {% for b in borrowings %}
+        <tr>
+            <td><a href="{% url 'book_detail' b.book.pk %}">{{ b.book.title }}</a></td>
+            <td>{{ b.borrower_name }}</td>
+            <td>{{ b.borrowed_date }}</td>
+            <td>{{ b.returned_date|default:"—" }}</td>
+            <td>
+                {% if b.returned_date %}
+                    <span class="badge bg-success">Zwrócona</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">Wypożyczona</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'borrowing_update' b.pk %}" class="btn btn-sm btn-outline-primary">Edytuj</a>
+                <a href="{% url 'borrowing_delete' b.pk %}" class="btn btn-sm btn-outline-danger">Usuń</a>
+            </td>
+        </tr>
+    {% empty %}
+        <tr><td colspan="6" class="text-center text-muted">Brak wypożyczeń.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

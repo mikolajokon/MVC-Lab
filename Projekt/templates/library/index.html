@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Strona główna — Biblioteka{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <h1>System zarządzania cyfrową biblioteką</h1>
+    <p class="lead text-muted">Zarządzaj książkami, autorami i wypożyczeniami w jednym miejscu.</p>
+    <div class="row mt-4 justify-content-center">
+        <div class="col-md-3">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body">
+                    <h2>{{ book_count }}</h2>
+                    <p class="mb-0">Książek</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body">
+                    <h2>{{ author_count }}</h2>
+                    <p class="mb-0">Autorów</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-bg-warning mb-3">
+                <div class="card-body">
+                    <h2>{{ borrowing_count }}</h2>
+                    <p class="mb-0">Aktywnych wypożyczeń</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
